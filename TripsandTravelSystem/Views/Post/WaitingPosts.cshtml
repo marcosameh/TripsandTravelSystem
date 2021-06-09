@@ -1,0 +1,53 @@
+﻿@model IQueryable<TripsandTravelSystem.Models.TripPostVM>
+@{
+    ViewBag.Title = "WaitingPosts";
+    Layout = "~/Views/SharedViews/DashboardLayout.cshtml";
+}
+<link href="~/Css/Profile.css" rel="stylesheet" />
+<link href="~/Css/Posts.css" rel="stylesheet" />
+
+<a href="/Post/ApproveAll" class="btn btn-primary font-weight-bold" id="button">Approve ALL Posts <i class="fa fa-check-circle"></i></a>
+    
+            @foreach (var item in Model)
+
+            {
+                
+<div class="card" style="width: 18rem;">
+    <img class="card-img-top" src="~/Img/@item.TripImage" alt="Card image cap">
+    <div class="card-body">
+        <p class="text-center"><i class="title">@item.TripDestination</i></p>
+        <p class="text-center"><i class="title">@item.Price &pound;</i></p>
+        <h5 class="card-title ellipsis">@item.TripTitle</h5>
+
+
+        <a href="@Url.Action("ShowDetials", "Post", new { Id = item.TripId})" class="text-c-blue" style="font-size:15px;">More Info</a>
+
+
+    </div>
+    <div class="row">
+        <div class="col-6">
+            <a href="/Post/Approve/@item.TripId" class="btn btn-primary">Approve <i class="fa fa-check-circle"></i></a>
+        </div>
+
+        <div class="col-6">
+            <a href="/Post/Remove/@item.TripId" class="btn btn-danger">Remove <i class="fa fa-times"></i></a>
+        </div>
+    </div>
+</div>
+
+
+            }
+<script src="~/assets/js/jquery/jquery.min.js"></script>
+<script>
+    $(function () {
+        $("input[type='button']").click(function () {
+            var radioValue = $("input[name='gender']:checked").val();
+            if (radioValue) {
+                alert("Your are a - " + radioValue);
+            }
+        });
+    })
+</script>
+
+           
+           

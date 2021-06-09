@@ -1,0 +1,438 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="TripsandTravelesSystemModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Admin">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Email" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Password" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="ConfirmPassword" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="PhoneNumber" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Photo" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Agency">
+          <Key>
+            <PropertyRef Name="AgencyId" />
+          </Key>
+          <Property Name="AgencyId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Password" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="ConfirmPassword" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Email" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Photo" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="RatePosts">
+          <Key>
+            <PropertyRef Name="RateId" />
+          </Key>
+          <Property Name="RateId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Like" Type="bit" />
+          <Property Name="DisLike" Type="bit" />
+          <Property Name="Stars" Type="int" />
+          <Property Name="TravalerId" Type="int" Nullable="false" />
+          <Property Name="PostId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Saved">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TravelerId" Type="int" Nullable="false" />
+          <Property Name="PostId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Travaler">
+          <Key>
+            <PropertyRef Name="TravalerId" />
+          </Key>
+          <Property Name="TravalerId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Password" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="ConfirmPassword" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Email" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Photo" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="TripPost">
+          <Key>
+            <PropertyRef Name="TripId" />
+          </Key>
+          <Property Name="TripId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TripTitle" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="TripDetails" Type="nvarchar" MaxLength="500" Nullable="false" />
+          <Property Name="PostDate" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="TripDate" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="TripDestination" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Price" Type="int" Nullable="false" />
+          <Property Name="TripImage" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Status" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="AgencyId" Type="int" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_RatePosts_Travaler">
+          <End Role="Travaler" Type="Self.Travaler" Multiplicity="1" />
+          <End Role="RatePosts" Type="Self.RatePosts" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Travaler">
+              <PropertyRef Name="TravalerId" />
+            </Principal>
+            <Dependent Role="RatePosts">
+              <PropertyRef Name="TravalerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RatePosts_TripPost">
+          <End Role="TripPost" Type="Self.TripPost" Multiplicity="1" />
+          <End Role="RatePosts" Type="Self.RatePosts" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TripPost">
+              <PropertyRef Name="TripId" />
+            </Principal>
+            <Dependent Role="RatePosts">
+              <PropertyRef Name="PostId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Saved_Travaler">
+          <End Role="Travaler" Type="Self.Travaler" Multiplicity="1" />
+          <End Role="Saved" Type="Self.Saved" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Travaler">
+              <PropertyRef Name="TravalerId" />
+            </Principal>
+            <Dependent Role="Saved">
+              <PropertyRef Name="TravelerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Saved_TripPost">
+          <End Role="TripPost" Type="Self.TripPost" Multiplicity="1" />
+          <End Role="Saved" Type="Self.Saved" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TripPost">
+              <PropertyRef Name="TripId" />
+            </Principal>
+            <Dependent Role="Saved">
+              <PropertyRef Name="PostId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TripPost_Agency">
+          <End Role="Agency" Type="Self.Agency" Multiplicity="1" />
+          <End Role="TripPost" Type="Self.TripPost" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Agency">
+              <PropertyRef Name="AgencyId" />
+            </Principal>
+            <Dependent Role="TripPost">
+              <PropertyRef Name="AgencyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="TripsandTravelesSystemModelStoreContainer">
+          <EntitySet Name="Admin" EntityType="Self.Admin" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Agency" EntityType="Self.Agency" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="RatePosts" EntityType="Self.RatePosts" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Saved" EntityType="Self.Saved" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Travaler" EntityType="Self.Travaler" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TripPost" EntityType="Self.TripPost" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_RatePosts_Travaler" Association="Self.FK_RatePosts_Travaler">
+            <End Role="Travaler" EntitySet="Travaler" />
+            <End Role="RatePosts" EntitySet="RatePosts" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RatePosts_TripPost" Association="Self.FK_RatePosts_TripPost">
+            <End Role="TripPost" EntitySet="TripPost" />
+            <End Role="RatePosts" EntitySet="RatePosts" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Saved_Travaler" Association="Self.FK_Saved_Travaler">
+            <End Role="Travaler" EntitySet="Travaler" />
+            <End Role="Saved" EntitySet="Saved" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Saved_TripPost" Association="Self.FK_Saved_TripPost">
+            <End Role="TripPost" EntitySet="TripPost" />
+            <End Role="Saved" EntitySet="Saved" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TripPost_Agency" Association="Self.FK_TripPost_Agency">
+            <End Role="Agency" EntitySet="Agency" />
+            <End Role="TripPost" EntitySet="TripPost" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="TripsandTravelesSystemModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Admin">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ConfirmPassword" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="PhoneNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Photo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="Agency">
+          <Key>
+            <PropertyRef Name="AgencyId" />
+          </Key>
+          <Property Name="AgencyId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ConfirmPassword" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Photo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="TripPost" Relationship="Self.FK_TripPost_Agency" FromRole="Agency" ToRole="TripPost" />
+        </EntityType>
+        <EntityType Name="RatePosts">
+          <Key>
+            <PropertyRef Name="RateId" />
+          </Key>
+          <Property Name="RateId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Like" Type="Boolean" />
+          <Property Name="DisLike" Type="Boolean" />
+          <Property Name="Stars" Type="Int32" />
+          <Property Name="TravalerId" Type="Int32" Nullable="false" />
+          <Property Name="PostId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Travaler" Relationship="Self.FK_RatePosts_Travaler" FromRole="RatePosts" ToRole="Travaler" />
+          <NavigationProperty Name="TripPost" Relationship="Self.FK_RatePosts_TripPost" FromRole="RatePosts" ToRole="TripPost" />
+        </EntityType>
+        <EntityType Name="Saved">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TravelerId" Type="Int32" Nullable="false" />
+          <Property Name="PostId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Travaler" Relationship="Self.FK_Saved_Travaler" FromRole="Saved" ToRole="Travaler" />
+          <NavigationProperty Name="TripPost" Relationship="Self.FK_Saved_TripPost" FromRole="Saved" ToRole="TripPost" />
+        </EntityType>
+        <EntityType Name="Travaler">
+          <Key>
+            <PropertyRef Name="TravalerId" />
+          </Key>
+          <Property Name="TravalerId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ConfirmPassword" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Photo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="RatePosts" Relationship="Self.FK_RatePosts_Travaler" FromRole="Travaler" ToRole="RatePosts" />
+          <NavigationProperty Name="Saved" Relationship="Self.FK_Saved_Travaler" FromRole="Travaler" ToRole="Saved" />
+        </EntityType>
+        <EntityType Name="TripPost">
+          <Key>
+            <PropertyRef Name="TripId" />
+          </Key>
+          <Property Name="TripId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TripTitle" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="TripDetails" Type="String" MaxLength="500" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="PostDate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="TripDate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="TripDestination" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Price" Type="Int32" Nullable="false" />
+          <Property Name="TripImage" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Status" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="AgencyId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Agency" Relationship="Self.FK_TripPost_Agency" FromRole="TripPost" ToRole="Agency" />
+          <NavigationProperty Name="RatePosts" Relationship="Self.FK_RatePosts_TripPost" FromRole="TripPost" ToRole="RatePosts" />
+          <NavigationProperty Name="Saved" Relationship="Self.FK_Saved_TripPost" FromRole="TripPost" ToRole="Saved" />
+        </EntityType>
+        <Association Name="FK_TripPost_Agency">
+          <End Role="Agency" Type="Self.Agency" Multiplicity="1" />
+          <End Role="TripPost" Type="Self.TripPost" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Agency">
+              <PropertyRef Name="AgencyId" />
+            </Principal>
+            <Dependent Role="TripPost">
+              <PropertyRef Name="AgencyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RatePosts_Travaler">
+          <End Role="Travaler" Type="Self.Travaler" Multiplicity="1" />
+          <End Role="RatePosts" Type="Self.RatePosts" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Travaler">
+              <PropertyRef Name="TravalerId" />
+            </Principal>
+            <Dependent Role="RatePosts">
+              <PropertyRef Name="TravalerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RatePosts_TripPost">
+          <End Role="TripPost" Type="Self.TripPost" Multiplicity="1" />
+          <End Role="RatePosts" Type="Self.RatePosts" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TripPost">
+              <PropertyRef Name="TripId" />
+            </Principal>
+            <Dependent Role="RatePosts">
+              <PropertyRef Name="PostId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Saved_Travaler">
+          <End Role="Travaler" Type="Self.Travaler" Multiplicity="1" />
+          <End Role="Saved" Type="Self.Saved" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Travaler">
+              <PropertyRef Name="TravalerId" />
+            </Principal>
+            <Dependent Role="Saved">
+              <PropertyRef Name="TravelerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Saved_TripPost">
+          <End Role="TripPost" Type="Self.TripPost" Multiplicity="1" />
+          <End Role="Saved" Type="Self.Saved" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TripPost">
+              <PropertyRef Name="TripId" />
+            </Principal>
+            <Dependent Role="Saved">
+              <PropertyRef Name="PostId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="TripsandTravelesSystemEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Admin" EntityType="Self.Admin" />
+          <EntitySet Name="Agency" EntityType="Self.Agency" />
+          <EntitySet Name="RatePosts" EntityType="Self.RatePosts" />
+          <EntitySet Name="Saved" EntityType="Self.Saved" />
+          <EntitySet Name="Travaler" EntityType="Self.Travaler" />
+          <EntitySet Name="TripPost" EntityType="Self.TripPost" />
+          <AssociationSet Name="FK_TripPost_Agency" Association="Self.FK_TripPost_Agency">
+            <End Role="Agency" EntitySet="Agency" />
+            <End Role="TripPost" EntitySet="TripPost" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RatePosts_Travaler" Association="Self.FK_RatePosts_Travaler">
+            <End Role="Travaler" EntitySet="Travaler" />
+            <End Role="RatePosts" EntitySet="RatePosts" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RatePosts_TripPost" Association="Self.FK_RatePosts_TripPost">
+            <End Role="TripPost" EntitySet="TripPost" />
+            <End Role="RatePosts" EntitySet="RatePosts" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Saved_Travaler" Association="Self.FK_Saved_Travaler">
+            <End Role="Travaler" EntitySet="Travaler" />
+            <End Role="Saved" EntitySet="Saved" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Saved_TripPost" Association="Self.FK_Saved_TripPost">
+            <End Role="TripPost" EntitySet="TripPost" />
+            <End Role="Saved" EntitySet="Saved" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="TripsandTravelesSystemModelStoreContainer" CdmEntityContainer="TripsandTravelesSystemEntities">
+          <EntitySetMapping Name="Admin">
+            <EntityTypeMapping TypeName="TripsandTravelesSystemModel.Admin">
+              <MappingFragment StoreEntitySet="Admin">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="ConfirmPassword" ColumnName="ConfirmPassword" />
+                <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
+                <ScalarProperty Name="Photo" ColumnName="Photo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Agency">
+            <EntityTypeMapping TypeName="TripsandTravelesSystemModel.Agency">
+              <MappingFragment StoreEntitySet="Agency">
+                <ScalarProperty Name="AgencyId" ColumnName="AgencyId" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="ConfirmPassword" ColumnName="ConfirmPassword" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Photo" ColumnName="Photo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RatePosts">
+            <EntityTypeMapping TypeName="TripsandTravelesSystemModel.RatePosts">
+              <MappingFragment StoreEntitySet="RatePosts">
+                <ScalarProperty Name="RateId" ColumnName="RateId" />
+                <ScalarProperty Name="Like" ColumnName="Like" />
+                <ScalarProperty Name="DisLike" ColumnName="DisLike" />
+                <ScalarProperty Name="Stars" ColumnName="Stars" />
+                <ScalarProperty Name="TravalerId" ColumnName="TravalerId" />
+                <ScalarProperty Name="PostId" ColumnName="PostId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Saved">
+            <EntityTypeMapping TypeName="TripsandTravelesSystemModel.Saved">
+              <MappingFragment StoreEntitySet="Saved">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="TravelerId" ColumnName="TravelerId" />
+                <ScalarProperty Name="PostId" ColumnName="PostId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Travaler">
+            <EntityTypeMapping TypeName="TripsandTravelesSystemModel.Travaler">
+              <MappingFragment StoreEntitySet="Travaler">
+                <ScalarProperty Name="TravalerId" ColumnName="TravalerId" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="ConfirmPassword" ColumnName="ConfirmPassword" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Photo" ColumnName="Photo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TripPost">
+            <EntityTypeMapping TypeName="TripsandTravelesSystemModel.TripPost">
+              <MappingFragment StoreEntitySet="TripPost">
+                <ScalarProperty Name="TripId" ColumnName="TripId" />
+                <ScalarProperty Name="TripTitle" ColumnName="TripTitle" />
+                <ScalarProperty Name="TripDetails" ColumnName="TripDetails" />
+                <ScalarProperty Name="PostDate" ColumnName="PostDate" />
+                <ScalarProperty Name="TripDate" ColumnName="TripDate" />
+                <ScalarProperty Name="TripDestination" ColumnName="TripDestination" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="TripImage" ColumnName="TripImage" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="AgencyId" ColumnName="AgencyId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

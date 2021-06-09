@@ -1,0 +1,35 @@
+﻿@model TripsandTravelSystem.Models.TravalerVM
+@{
+    ViewBag.Title = "DeleteTravaler";
+    Layout = "~/Views/SharedViews/DashboardLayout.cshtml";
+}
+<h3 class="text-danger text-center">Are You Sure You Want To Delete This Data</h3>
+
+<link href="~/Css/Profile.css" rel="stylesheet" />
+
+<link href="~/Css/CenterButton.css" rel="stylesheet" />
+
+<div class="containerbff">
+    <form method="post" action="/Travaler/DeleteTravaler">
+        <div class="card">
+            <img src="~/Img/@Model.Photo" alt="" style="width:100%">
+            <h1>@Model.UserName</h1>
+            @*<p class="title">CEO & Founder, Example</p>
+                <p>Harvard University</p>
+                <a href="#"><i class="fa fa-dribbble"></i></a>
+                <a href="#"><i class="fa fa-twitter"></i></a>
+                <a href="#"><i class="fa fa-linkedin"></i></a>
+                <a href="#"><i class="fa fa-facebook"></i></a>
+                <p><button>Contact</button></p>*@
+            <i class="title">Email:</i><p class="font-weight-bold">@Model.Email</p>
+            <input type="hidden" value="@Model.TravalerId" name="Id" />
+            <br />
+            <input type="submit" class="btn btn-danger .centerb" value="Delete" />
+
+
+        </div>
+    </form>
+</div>
+
+
+

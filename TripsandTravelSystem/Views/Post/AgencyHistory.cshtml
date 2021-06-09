@@ -1,0 +1,26 @@
+﻿@model IQueryable<TripsandTravelSystem.Models.TripPostVM>
+@{
+    ViewBag.Title = "AgencyHistory";
+    Layout = "~/Views/SharedViews/factory layout.cshtml";
+}
+
+<link href="~/Css/Posts.css" rel="stylesheet" />
+
+@foreach (var item in Model)
+
+{
+    <div class="card" style="width: 18rem;">
+        <img class="card-img-top" src="~/Img/@item.TripImage" alt="Card image cap">
+        <div class="card-body">
+
+            <h5 class="card-title ellipsis">@item.TripTitle</h5>
+            <a href="@Url.Action("ShowDetials", "Post", new { Id = item.TripId})" class="text-c-blue" style="font-size:15px;">More Info</a>
+
+            <p class="text-center"><i class="title">@item.TripDestination</i></p>
+            
+        </div>
+    </div>
+
+
+}
+

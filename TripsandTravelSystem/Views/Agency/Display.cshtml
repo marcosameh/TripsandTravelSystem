@@ -1,0 +1,60 @@
+﻿@model IQueryable<TripsandTravelSystem.Models.AgencyVM>
+@{
+    ViewBag.Title = "Display";
+    Layout = "~/Views/SharedViews/DashboardLayout.cshtml";
+}
+
+<!-- Hover table card start -->
+<a href="/Agency/Create/"><h3 class="text-primary">Create New Agency</h3></a>
+<div class="card">
+    <div class="card-header">
+        <h5>Agency Table</h5>
+        <span>All<code>Agency</code> Detials Appear Here</span>
+        <div class="card-header-right">
+            <ul class="list-unstyled card-option">
+                <li><i class="fa fa fa-wrench open-card-option"></i></li>
+                <li><i class="fa fa-window-maximize full-card"></i></li>
+                <li><i class="fa fa-minus minimize-card"></i></li>
+                <li><i class="fa fa-refresh reload-card"></i></li>
+                <li><i class="fa fa-trash close-card"></i></li>
+            </ul>
+        </div>
+    </div>
+    <div class="card-block table-border-style">
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>UserName</th>
+                        <th>Email</th>
+                        <th>Photo</th>
+                        <th>Edit</th>
+                        <th>Delete</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                        <td>@item.UserName</td>
+                        <td>@item.Email</td>
+                        <td>
+                            <div class="d-inline-block align-middle">
+                                <img src="~/Img/@item.Photo" alt="user image" class="img-radius img-40 align-top m-r-15">
+                                
+                            </div>
+                        </td>
+                            <td><button class="btn btn-success" onclick="window.location.href='/Agency/EditByAdmin/@item.AgencyId'">Edit <i class="fa fa-edit f-14"></i></button></td>
+                            <td><button class="btn btn-danger" onclick="window.location.href='/Agency/Delete/@item.AgencyId'">Delete <i class="fa fa-trash f-14"></i></button></td>
+                            
+                            
+
+                           </tr>
+
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<!-- Hover table card end -->

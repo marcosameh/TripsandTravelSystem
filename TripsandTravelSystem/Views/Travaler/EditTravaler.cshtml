@@ -1,0 +1,88 @@
+﻿@model TripsandTravelSystem.Models.TravalerVM
+@{
+    ViewBag.Title = "EditTravaler";
+    Layout = "~/Views/SharedViews/DashboardLayout.cshtml";
+}
+
+<link href="~/Css/CenterButton.css" rel="stylesheet" />
+
+<div style="max-width: 500px; margin: auto;" class="col-md-6">
+    <div class="card">
+        <div class="card-header">
+            <h5>Edit Travaler Information</h5>
+            <!--<span>Add class of <code>.form-control</code> with <code>&lt;input&gt;</code> tag</span>-->
+        </div>
+        <div class="card-block">
+            <form class="form-material" action="/Travaler/EditTravaler" method="post" enctype="multipart/form-data">
+
+                <input type="hidden" value="@Model.TravalerId" name="TravalerId" />
+                <input type="hidden" value="@Model.UserName" name="UserName" />
+                <div class="form-group form-default">
+                    @Html.TextBoxFor(a => a.Email, new { @class = "form-control" })
+                    <span class="form-bar"></span>
+                    <label class="float-label">Email (exa@gmail.com)</label>
+                    @Html.ValidationMessageFor(a => a.Email, null, new { @class = "text-danger" })
+                </div>
+                <div class="form-group form-default">
+
+                    @Html.PasswordFor(a => a.Password, new { @class = "form-control", @id = "pass" })
+                    <span class="form-bar"></span>
+                    <label class="float-label">Password</label>
+                    @Html.ValidationMessageFor(a => a.Password, null, new { @class = "text-danger" })
+                    <input type="checkbox" id="showpass" /> Show Password
+                </div>
+                <div class="form-group form-default">
+                    @Html.PasswordFor(a => a.ConfirmPassword, new { @class = "form-control", @id = "pass2" })
+
+                    <span class="form-bar"></span>
+                    <label class="float-label">Confirm Password</label>
+                    @Html.ValidationMessageFor(a => a.ConfirmPassword, null, new { @class = "text-danger" })
+                    <input type="checkbox" id="showpass2" /> Show Confirm Password
+                </div>
+
+                <div class="form-group form-default">
+                    <input type="file" class="form-control" name="Photo">
+                    <span class="form-bar"></span>
+                    <label class="float-label">Photo</label>
+
+                </div>
+
+
+
+
+                <input type="submit" value="Edit" class="btn btn-primary .centerb" />
+            </form>
+        </div>
+    </div>
+</div>
+
+<script src="~/Scripts/jquery-3.5.1.min.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script>
+    $(function () {
+
+
+        $("#showpass").click(function () {
+            if ($("#showpass").prop("checked") == true) {
+                $("#pass").attr("type", "text");
+            }
+            else {
+                $("#pass").attr("type", "password");
+            }
+        });
+        $("#showpass2").click(function () {
+            if ($("#showpass2").prop("checked") == true) {
+                $("#pass2").attr("type", "text");
+            }
+            else {
+                $("#pass2").attr("type", "password");
+            }
+        });
+
+
+        });
+
+</script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+
+

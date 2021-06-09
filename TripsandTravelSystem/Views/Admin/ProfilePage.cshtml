@@ -1,0 +1,23 @@
+﻿@model TripsandTravelSystem.Models.AdminVM
+@{
+    ViewBag.Title = "ProfilePage";
+    Layout = "~/Views/SharedViews/DashboardLayout.cshtml";
+}
+<link href="~/Css/Profile.css" rel="stylesheet" />
+    
+
+
+
+<div class="card">
+    <img src="~/Img/@Model.Photo" alt="" style="width:100%">
+    <h1>@Model.UserName</h1>
+    @*<p class="title">CEO & Founder, Example</p>
+    <p>Harvard University</p>
+    <a href="#"><i class="fa fa-dribbble"></i></a>
+    <a href="#"><i class="fa fa-twitter"></i></a>
+    <a href="#"><i class="fa fa-linkedin"></i></a>
+    <a href="#"><i class="fa fa-facebook"></i></a>
+    <p><button>Contact</button></p>*@
+    <i  class="title">Email:</i><p class="font-weight-bold">@Model.Email</p>
+    <i class="title">PhoneNumber:</i><p class="font-weight-bold">@Model.PhoneNumber</p>
+</div>

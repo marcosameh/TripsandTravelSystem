@@ -1,0 +1,167 @@
+﻿<link href="~/assets/css/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+
+<!-- Font Awesome -->
+<link rel="stylesheet" type="text/css" href="~/assets/icon/font-awesome/css/font-awesome.min.css">
+<script src="~/assets/js/jquery/jquery-3.5.1.js"></script>
+
+<style>
+    fieldset {
+        overflow: hidden
+    }
+
+    .some-class {
+        float: left;
+        clear: none;
+    }
+
+    label {
+        float: left;
+        clear: none;
+        display: block;
+        padding: 0px 1em 0px 8px;
+    }
+
+    input[type=radio],
+    input.radio {
+        float: left;
+        clear: none;
+        margin: 2px 0 0 2px;
+    }
+
+    .logo-image {
+        width: 46px;
+        height: 46px;
+        border-radius: 50%;
+        overflow: hidden;
+        margin-top: -6px;
+    }
+</style>
+<body>
+    <input type="hidden" value="@Session["Id"]" class="TravId" />
+    @if (User.IsInRole("Traveler"))
+    {
+        <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+
+            @*<a class="navbar-brand" href="#" data-abc="true">BBBOOTSTRAP</a> <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor02" aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation"> <span class="navbar-toggler-icon"></span> </button>*@
+            <span class="nav-item" data-abc="true">@Session["Name"]</span>
+
+            @if (Session["Photo"] != null)
+            {
+                <div class="navbar-brand">
+                    <div class="logo-image">
+                        <img src="~/Img/@Session["Photo"]" class="img-fluid">
+                    </div>
+                </div>
+
+            }
+            else
+            {
+                <div class="navbar-brand">
+                    <div class="logo-image">
+                        <img src="~/Img/images.png" class="img-fluid">
+                    </div>
+                </div>
+
+
+            }
+            <div class="collapse navbar-collapse" id="navbarColor02">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item active"> <a class="nav-link" href="/Post/WallPage/@Session["Id"]" data-abc="true">Home <span class="sr-only">(current)</span></a> </li>
+                    <li class="nav-item active"> <a class="nav-link" href="/Post/FavouritePosts/@Session["Id"]" data-abc="true"> Favorites <i class="fa fa-heart" style="color:red;"></i></a></li>
+                    <li><a href="/Account/SignOut"><input class="btn btn-secondary my-2 my-sm-0" type="button" value="SignOut"></a></li>
+
+                </ul>
+                <h4> Search by</h4>
+                &nbsp;
+                &nbsp;
+                <fieldset>
+
+                    <div class="some-class">
+
+                        <input type="radio" class="radio" name="item" value="Price" />
+                        <label for="y">Price</label>
+                        <input type="radio" class="radio" name="item" value="Agency Name" />
+                        <label for="z">Agency Name</label>
+                        <input type="radio" class="radio" name="item" value="Trip Date" />
+                        <label for="z">Trip Date</label>
+                    </div>
+                </fieldset>
+                <form onsubmit="event.preventDefault()" class="form-inline my-2 my-lg-0"> <input class="form-control mr-sm-2" type="text" placeholder="Search" id="txt"> <button class="btn btn-secondary my-2 my-sm-0" type="submit" id="btn">Search</button> </form>
+            </div>
+        </nav>
+    }
+    else
+    {
+        <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+
+            @*<a class="navbar-brand" href="#" data-abc="true">BBBOOTSTRAP</a> <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor02" aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation"> <span class="navbar-toggler-icon"></span> </button>*@
+            <a href="/Account/Login" class="btn btn-danger">Login</a>
+            &nbsp; &nbsp;
+            <a href="/Travaler/AddTravaler" class="btn btn-success">Register</a>
+            &nbsp;
+            <div class="collapse navbar-collapse" id="navbarColor02">
+                <ul class="navbar-nav mr-auto">
+                </ul>
+                <h4> Search by</h4>
+                &nbsp;
+                &nbsp;
+                <fieldset>
+
+                    <div class="some-class">
+
+                        <input type="radio" class="radio" name="item" value="Price" />
+                        <label>Price</label>
+                        <input type="radio" class="radio" name="item" value="Agency Name" />
+                        <label>Agency Name</label>
+                        <input type="radio" class="radio" name="item" value="Trip Date" />
+                        <label>Trip Date</label>
+                    </div>
+                </fieldset>
+                <form onsubmit="event.preventDefault()" class="form-inline my-2 my-lg-0"> <input class="form-control mr-sm-2" type="text" placeholder="Search" id="txt"> <button class="btn btn-secondary my-2 my-sm-0" type="submit" id="btn">Search</button> </form>
+            </div>
+        </nav>
+    }
+    @RenderBody()
+</body>
+
+
+<script>
+    $(function () {
+        $("input[type='radio']").click(function () {
+            var radioValue = $("input[name='item']:checked").val();
+            var TravId = $(".TravId").val();
+            if (radioValue == "Price") {
+                $("#txt").attr('type', 'Text');
+            $("#btn").click(function () {
+                
+                var Price2 = $("#txt").val();
+             
+                window.location.href = "/Post/SearchPrice?Price=" + Price2 + "&Id=" + TravId;
+
+            });
+        }
+        else if (radioValue == "Trip Date") {
+            $("#txt").attr('type', 'date');
+            $("#btn").click(function () {
+                var TripDate = $("#txt").val();
+                TripDate.toString();
+
+                window.location.href = "/Post/SearchTripDate?TripDate=" + TripDate + "&Id=" + TravId;
+
+            });
+        }
+
+            else if (radioValue == "Agency Name") {
+                $("#txt").attr('type', 'Text');
+            $("#btn").click(function () {
+                var AgencyName = $("#txt").val();
+              
+
+                window.location.href = "/Post/SearchAgencyName?AgencyName=" + AgencyName + "&Id=" + TravId;
+
+            });
+
+        }
+        });
+        });
+</script>

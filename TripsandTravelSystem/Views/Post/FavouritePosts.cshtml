@@ -1,0 +1,122 @@
+﻿@model IQueryable<TripsandTravelSystem.Models.TripPostVM>
+@{
+    ViewBag.Title = "FavouritePosts";
+    Layout = "~/Views/SharedViews/Wall Layout.cshtml";
+}
+<link href="~/Css/Posts.css" rel="stylesheet" />
+
+
+
+<br />
+<div style="margin-left:30px;">
+
+    @foreach (var item in Model)
+
+    {
+
+        <div class="card" style="width: 18rem;margin-right:80px;">
+            <img class="card-img-top" src="~/Img/@item.TripImage" alt="Card image cap">
+
+            <div class="card-body">
+                <p class="text-center"><i class="title">@item.TripDestination</i></p>
+                <p class="text-center"><i class="title">@item.Price &pound;</i></p>
+                <h5 class="card-title ellipsis">@item.TripTitle</h5>
+                <a href="@Url.Action("ShowDetials", "Post", new { Id = item.TripId, TravalerId = Session["Id"] })" class="text-c-blue" style="font-size:15px;">More Info</a>
+                <input type="hidden" value="@item.TripId" class="Trip" />
+                @if (User.IsInRole("Traveler"))
+                {
+                    if (item.Like == true)
+                    {
+
+                        <div class="row">
+                            <div col-6>
+                                <form action="/React/Like">
+                                    <input type="hidden" value="@item.TripId" name="PostId" />
+                                    <input type="hidden" value="@Session["Id"]" name="TravalerId" />
+                                    <button class="btn Like" style="color:blue">Like<i class="fa fa-thumbs-up"></i></button>&nbsp
+                                </form>
+                            </div>
+                            <div class="col-6">
+                                <form action="/React/DisLike">
+                                    <input type="hidden" value="@item.TripId" name="PostId" />
+                                    <input type="hidden" value="@Session["Id"]" name="TravalerId" />
+                                    <button class="btn  dislike">DisLike <i class="fa fa-thumbs-down"></i></button>
+                                </form>
+                            </div>
+                        </div>
+                    }
+                    else if (item.DisLike == true)
+                    {
+                        <div class="row">
+                            <div class="col-6">
+                                <form action="/React/Like">
+                                    <input type="hidden" value="@item.TripId" name="PostId" />
+                                    <input type="hidden" value="@Session["Id"]" name="TravalerId" />
+                                    <button class="btn Like">Like<i class="fa fa-thumbs-up"></i></button>&nbsp
+                                </form>
+                            </div>
+                            <div class="col-6">
+                                <form action="/React/DisLike">
+                                    <input type="hidden" value="@item.TripId" name="PostId" />
+                                    <input type="hidden" value="@Session["Id"]" name="TravalerId" />
+                                    <button class="btn  dislike" style="color:blue">DisLike<i class="fa fa-thumbs-down"></i></button>
+                                </form>
+                            </div>
+                        </div>
+
+                    }
+                    else
+                    {
+                        <div class="row">
+                            <div class="col-6">
+                                <form action="/React/Like">
+                                    <input type="hidden" value="@item.TripId" name="PostId" />
+                                    <input type="hidden" value="@Session["Id"]" name="TravalerId" />
+                                    <button class="btn Like">Like<i class="fa fa-thumbs-up"></i></button>&nbsp
+                                </form>
+                            </div>
+                            <div class="col-6">
+                                <form action="/React/DisLike">
+                                    <input type="hidden" value="@item.TripId" name="PostId" />
+                                    <input type="hidden" value="@Session["Id"]" name="TravalerId" />
+
+                                    <button class="btn  DisLike">DisLike <i class="fa fa-thumbs-down"></i></button>
+                                </form>
+                            </div>
+                        </div>
+                    }
+                    <div class="row">
+                        <div class="col-6">
+                            <i>@item.NumOfLikes</i>
+                        </div>
+
+                        <div class="col-6">
+                            <i>@item.NumOfDislikes</i>
+                        </div>
+                    </div>
+                }
+                else
+                {
+                    <div class="row">
+                        <div class="col-6">
+                            <button class="btn  DisLike" style="color:blue" disabled>@item.NumOfLikes<i class="fa fa-thumbs-up"></i></button>
+                        </div>
+
+                        <div class="col-6">
+                            <button class="btn  DisLike" style="color:red" disabled>@item.NumOfDislikes<i class="fa fa-thumbs-down"></i></button>
+                        </div>
+                    </div>
+                }
+
+
+            </div>
+        </div>
+
+    }
+</div>
+
+<script src="~/assets/js/Like.js"></script>
+
+
+
+
